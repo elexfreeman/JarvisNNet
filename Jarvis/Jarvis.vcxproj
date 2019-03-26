@@ -99,7 +99,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Jarvis\TF;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)Jarvis\TF\tensorflow.dll" $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -141,7 +142,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Jarvis\TF;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)Jarvis\TF\tensorflow.dll" $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -171,7 +173,6 @@
     <ClInclude Include="MyTF.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="perceptron.h" />
-    <ClInclude Include="TF\c_api.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jarvis.cpp" />

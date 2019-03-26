@@ -7,9 +7,10 @@
 #include <iostream>
 #include <math.h>
 #include "MultilayerPerceptron.h"
+#include <time.h> 
 using namespace std;
-int main()
-{
+
+void fnc_xor() {
 	int i;
 	float err;
 	vector<float> teInput;
@@ -17,15 +18,17 @@ int main()
 	vector<float> teTest;
 	MultilayerPerceptron *mlp;
 	vector<MultilayerPerceptron::TrainingElement> trainingSet;
-	
+
 	mlp = new MultilayerPerceptron(2, 1);
-	mlp->addHiddenLayer(10);
-	mlp->addHiddenLayer(10);
-	mlp->init();	
-	
+	mlp->addHiddenLayer(3);
+	mlp->addHiddenLayer(3);
+	mlp->addHiddenLayer(3);
+	/*mlp->addHiddenLayer(10);*/
+	mlp->init();
+
 
 	teInput.push_back(0);
-	teInput.push_back(0);	
+	teInput.push_back(0);
 	teOutput.push_back(0);
 	trainingSet.push_back(MultilayerPerceptron::TrainingElement(teInput, teOutput));
 
@@ -42,6 +45,8 @@ int main()
 	teInput.push_back(0);
 	teOutput.push_back(1);
 	trainingSet.push_back(MultilayerPerceptron::TrainingElement(teInput, teOutput));
+
+
 	teInput.clear();
 	teOutput.clear();
 	teInput.push_back(1);
@@ -50,11 +55,15 @@ int main()
 	trainingSet.push_back(MultilayerPerceptron::TrainingElement(teInput, teOutput));
 	mlp->setTrainingSet(trainingSet);
 
-	for (i = 0; i < 990; i++) {
+	for (i = 0; i < 5000; i++) {
 		err = mlp->train(0.9f);
+		if (err < .0001f) {
+			break;
+		}
+
 		cout << "iteration: " << i << ", error: " << err << "\n";
 	}
-
+	cout << "iteration: " << i << ", error: " << err << "\n";
 	//классификация///
 	teInput.clear();
 	teOutput.clear();
@@ -62,10 +71,71 @@ int main()
 	teInput.push_back(0);
 	teOutput = mlp->classify(teInput);
 
-	cout << " 1 0 = " << teOutput[0];
+	cout << " 1 0 = " << round(teOutput[0]);
+	delete mlp;
+}
 
+/*конвертирует it в массив битов*/
+vector<float> intToBin(int n) {
+	int i, bottom, top;
+	int m[8];
+	vector<float> outBin;
+	int number = n;
+
+	for (i = 0; i < 8; i++)
+	{
+		m[i] = number % 2;
+		number = number / 2;
+	}
+
+	for (bottom = 0, top = 7; bottom < 8; bottom++, top--)
+	{
+		outBin.push_back(m[top]);
+	}
+	return outBin;
+}
+
+void convertMBin() {
+	char character;
+	int number;
+	int i;
+	int m[8];
+	vector<float> outBin;
+
+	cout << "Please enter a character: ";
+	cin >> number;
+	cout << "You've entered " << number << endl;
+
+	outBin = intToBin(number);
+
+	for (i = 0; i < outBin.size(); i++) {
+		cout << outBin[i];
+	}
+}
+
+void testVectorMem() {
+	std::vector<float> vec;
+
+	for (long long ii = 0; ii < 1000000; ++ii) {
+		vec.push_back(12.0f);
+	}
+}
+
+int main()
+{
+	
+
+	clock_t start = clock();
+	
+	fnc_xor();
+
+	clock_t end = clock();
+	double sec = (double)((end - start) / (CLOCKS_PER_SEC)*1000);
+	printf("The time: %f ms\n", sec);
+	std::cin.get();
 
 	
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
